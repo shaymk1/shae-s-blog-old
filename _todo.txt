@@ -103,6 +103,20 @@
 # in the core folder, create a folder called tests
 # in the test folder, create an init file
 # create a blog or your app name folder within to run the tests
+# within the blog folder, create a file called test_models.py
+# within the test folder, write the following:
+  > import pytest
+
+  pytestmark = pytest.mark.django_db
+
+
+  class TestPostModel:
+    # post_factory is from the registerd class PostFactory in the conftest.py
+    def test_str_return(self, post_factory):
+        post = post_factory(title="test-post")
+        assert post.__str__() == "test-post"
+
+
 # create an init file in the blog folder
 # in the root folder, create a pytest configuration file called pytest.ini and write this:
   > [pytest]
