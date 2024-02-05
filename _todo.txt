@@ -22,7 +22,7 @@
 # pip install flake8
 # create .vscode folder in the root
 # within it, create a settings.json and write this:
-  >{
+  > {
     "editor.formatOnSave": true,
     "python.formating.provider": "black",
     "python.formatting.blackArgs": ["--line-length", "120"],
