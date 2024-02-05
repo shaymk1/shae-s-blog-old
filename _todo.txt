@@ -78,7 +78,9 @@
     > SECRET_KEY = os.environ.get("SECRET_KEY")
     > DEBUG = True
     > ALLOWED_HOSTS = ["*"]
-# in the manage.py file, in the main function, make sure that it runs local settings when debug=true and production settings when debug is false like so:
+# in the manage.py file:
+  > from core.settings import base_settings i
+  > in the main function, make sure that it runs local settings when debug=true and production settings when debug is false like so:
   > def main():
    
     # check if Debug = True
@@ -107,7 +109,7 @@
   > DJANGO_SETTINGS_MODULE = core.settings.local_settings
   > python_files = test_*.py #naming all our test files test_ something
 # we will name all our test files to start with test_
-# pip install pytest --cov
+# pip install pytest-cov
 # run pytest --cov
 # a test result will come through with some of the missing tests
 # to get a full report, we need to get it in the html format like so:
