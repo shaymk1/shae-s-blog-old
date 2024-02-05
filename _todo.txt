@@ -1,0 +1,299 @@
+############ INITIAL SETUP ######
+
+# create a virtual environment:
+   > py -m venv <name-of-venv>
+# activate venv
+   > venv-name/scripts/activate
+# Install django
+# pip freeze > requirements.txt
+# create a projects:
+   > py admin  startproject core .
+# create an app:
+  > py manage.py startapp <name-of-app>
+# register the new app under installed apps in settings"
+  > 'name-of-app'
+# run server
+
+##############################################
+      Formating and linting
+#############################################
+
+# pip install black or use the black extension
+# pip install flake8
+# create .vscode folder in the root
+# within it, create a settings.json and write this:
+  >{
+    "editor.formatOnSave": true,
+    "python.formating.provider": "black",
+    "python.formatting.blackArgs": ["--line-length", "120"],
+  
+    "python.linting.enabled": true,
+    "python.linting.lintOnSave": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": ["--max-line-length", "120"],
+
+    "[python]": {
+      "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+      }
+    },
+  // "python.pythonPath": "venv\\Scripts\\python.exe",
+ 
+  "files.associations": {
+    "**/*.html": "html",
+    "**/templates/**/*.html": "django-html",
+    "**/templates/**/*": "django-txt",
+    "**/requirements{/**,*}.{txt,in}": "pip-requirements"
+  },
+  }
+
+##############################################
+      CREATING DIFFERENT ENVIONMENTS
+#############################################
+
+# create settings folder in the core directory
+# create an init file to make it a model
+# move the settings.py in that settings folder but rename it base-settings
+# create two more files and name them local_settings and production_settings respectfully
+# import base_settings into local and production settings like so:
+   > from .base_settings import *
+# create a new random secret key through an interactive python shell like so:
+  > py manage.py shell
+  > from django.core.management.utils import get_random_secret_key
+  > print(get_random_secret_key())
+  > copy the secret key and paste it somewhere save
+  > leave the shell with exit()
+# create environmental variable to store secret key in the root folder:
+  > pip install python-dotenv
+  > copy the new randoom secret key from the shell  and debug=true and paste it there
+  > remove any white space and quotations like so:
+    > SECRET_KEY =django-insecure-c@(q7am@&-feg*xp*@@l$*!s#4=*-65-^^ck6v#5(^0s10a^p1
+    > DEBUG=True
+# .env already added to the .gitignore
+# in the base_settings:
+  > from dotenv import load_dotenv
+  > import os
+  > load_dotenv()
+  > change the SECRET_KEY like so:
+    > SECRET_KEY = os.environ.get("SECRET_KEY")
+    > DEBUG = True
+    > ALLOWED_HOSTS = ["*"]
+# in the manage.py file, in the main function, make sure that it runs local settings when debug=true and production settings when debug is false like so:
+  > def main():
+   
+    # check if Debug = True
+    if base_settings.DEBUG:
+        os.environ.setdefault(
+            "DJANGO_SETTINGS_MODULE",
+            "core.settings.local_settings",
+        )
+    else:
+        os.environ.setdefault(
+            "DJANGO_SETTINGS_MODULE", "core.settings.production_settings"
+        )
+# run server to verify that you are in local_settings
+
+##############################################
+      Testing setup
+#############################################
+
+# pip install pytest
+# in the core folder, create a folder called tests
+# in the test folder, create an init file
+# create a blog or your app name folder within to run the tests
+# create an init file in the blog folder
+# in the root folder, create a pytest configuration file called pytest.ini and write this:
+  > [pytest]
+  > DJANGO_SETTINGS_MODULE = core.settings.local_settings
+  > python_files = test_*.py #naming all our test files test_ something
+# we will name all our test files to start with test_
+# pip install pytest --cov
+# run pytest --cov
+# a test result will come through with some of the missing tests
+# to get a full report, we need to get it in the html format like so:
+  > pytest --cov-report html --cov=./
+  > this will output a folder with many html files, including index.html
+  > open index.html 
+  > inspect the tests you are missing. Neglet the django files. Open the files that you wrote yourself.
+# create a file called factories.py in the tests folder to generate fake entries in the database
+# install factory-boy:
+  > pip install factory-boy
+  > write some items you need to test in factories file like so:
+    > import factory
+        from django.contrib.auth.models import User
+
+        from blog.models import Post
+
+
+        class UserFactory(factory.django.DjangoModelFactory):
+            class Meta:
+                model = User
+
+            password = "test"
+            username = "test"
+            is_superuser = True
+            is_staff = True
+
+
+        class PostFactory(factory.django.DjangoModelFactory):
+            class Meta:
+                model = Post
+
+            title = "x"
+            subtitle = "x"
+            slug = "x"
+            author = factory.SubFactory(UserFactory)
+            content = "x"
+            status = "published"
+
+            @factory.post_generation
+            def tags(self, create, extracted, **kwargs):
+                if not create:
+                    return
+
+                if extracted:
+                    self.tags.add(*extracted)
+# to finally test, then we need to pip install pytest-factoryboy
+# in the test folder, create conftest.py file which is gonna be seen by pytest before it runs
+# inside the conftest.py write this to use factoryboy to test:
+  > from pytest_factoryboy import register
+
+   from .factories import PostFactory
+
+      # register the class
+      register(PostFactory)
+
+# run pytest
+# it should tell how many passed or failed
+
+##############################################
+      Configure templates
+#############################################
+
+# create templates folder in the root folder
+# in the base_settings, under templates:
+  > "DIRS": [os.path.join(BASE_DIR, "templates")],
+
+##############################################
+      Configure statics
+#############################################
+
+# create static folder in the root folder, 
+# make some subfolders for css, js, and images and put any static files in there
+# in the base_settings, under statics:
+  > STATIC_URL = '/static/'
+  > MEDIA_URL ='/media/'
+  > STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+  > MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+  > STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+##############################################
+      Creating templates
+#############################################
+
+# in the templates folder, create a file called base.html
+# also within that, create a folder where your app's templates are going to reside, e.g : blog
+# within the blog folder, create the templates you need, e.g, index.html, post.html
+# in the base.html:
+  > load static at the very top of the file:
+    > {% load static%}
+    > do your emmet template
+    > write {% block content %} {% endblock %}
+    > above block content, include your navbar
+    > below your endblock, put your footer
+# in the index.html, at the very top, write: {% extends 'base.html' %}
+# then {% block content %} {% endblock %}, put your content between there like so:
+  > {% block content %}
+    <section>
+      <div>
+         <h1>Only love matters</h1>
+      </div>
+    </section>
+    {% endblock %}
+
+##############################################
+      Creating views
+#############################################
+
+# import models like this:
+  > from .models import Post
+# create index view like this:
+  > def home(request):
+      return render(request, "blog/index.html")
+
+##############################################
+      Configure URL's
+#############################################
+
+# create a url.py file in the app
+# in the core url's,:
+  >  import include next to the path
+  > add a path to include the app's urls like so:
+    > path("", include("app.urls"))
+# the app urls:
+  > import path:
+    > from django.urls import path
+  > import views like so:
+    > from . import views
+  > add a path like this:
+    > path("", views.index, name = "home"),
+
+##############################################
+      Collect Statics
+#############################################
+
+# collect statics to make sure that your css and images are in the static root
+# py manage.py collectstatic
+
+##############################################
+      Create models
+#############################################
+
+# in models.py:
+  > from django.contrib.auth.models import User
+
+
+# Create your models here.
+
+
+class Post(models.Model):
+    options = (
+        ("draft", "Draft"),
+        ("published", "Published"),
+    )
+    title = models.CharField(max_length=250)
+    subtitle = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250, unique=True)
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="post_author"
+    )
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, editable=False)
+    # feature_image = models.ImageField(upload_to="images/")
+    status = models.CharField(max_length=10, choices=options, default="draft")
+
+    class Meta:
+        ordering = ("-created_at",)  # decending order
+
+    def __str__(self):
+        return self.title
+
+##############################################
+      Register your  models in admin.py
+#############################################
+
+# in admin.py:
+  > from .models import Post
+  >admin.site.register(Post)
+
+##############################################
+     Migrations
+#############################################
+
+# py manage.py createsuperuser : admin
+# password: .......
+# py manage.py make migrations
+# py manage.py migrate
+# py manage.py runserver
+# go to admin panel, and  put your username and password there
