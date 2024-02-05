@@ -10,10 +10,10 @@ class Post(models.Model):
         ("draft", "Draft"),
         ("published", "Published"),
     )
-
-    title = models.CharField(max_length=250)
     sub_title = models.CharField(max_length=250)
+    title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique=True)
+    intro = models.TextField()
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
