@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Posts{% endblock title%}  
+{% block title %}
+Posts{% endblock title%}  
 {% block content %}
+{% include 'navbar.html' %}
 <h1> posts</h1>
 {% endblock  %}
+{% include 'footer.html' %}
