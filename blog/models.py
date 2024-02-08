@@ -1,3 +1,4 @@
+from email.policy import default
 from pyexpat import model
 from tkinter import CASCADE
 from django.db import models
@@ -10,12 +11,21 @@ class Post(models.Model):
         ("draft", "Draft"),
         ("published", "Published"),
     )
+    image = models.ImageField(
+        null=True, blank=True, 
+        upload_to="article",
+        default="placeholder.png"
+        )
     sub_title = models.CharField(max_length=250)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    time_required_to_read = models.CharField(
+        max_length=250, 
+        default="2 minutes"
+        )
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique=True)
-    intro = models.TextField()
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    intro = models.TextField(blank=True)
+    content = models.TextField(blank=True)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="post_author"
