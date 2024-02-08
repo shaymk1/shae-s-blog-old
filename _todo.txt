@@ -202,6 +202,12 @@
   > STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
   > MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
   > STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+# in the core urls, also configure statics like so:
+  > from django.conf.urls.static import static
+  >  from django.conf import settings 
+# Outside the urls pattern:
+  > urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+  > urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 ##############################################
       Creating templates

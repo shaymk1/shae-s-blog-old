@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from .models import Post
+from .models import Post , TrendingArticles
+# 
 
 
-# Create your views here.
 def index(request):
     model = Post
     posts = Post.objects.all().order_by("-created_at")
@@ -19,3 +19,15 @@ def post(request):
 
 def posts(request):
     return render(request, "blog/posts.html")
+
+
+def trending_posts(request):
+    model = TrendingArticles
+    trending_articles = TrendingArticles.objects.all()
+    featured = TrendingArticles.articlemanager.filter(featured=True)[0:3]
+    context = {
+            "trending_articles": trending_articles, 
+            "model": model,
+            "featured": featured
+             }
+    return render(request, "blog/index.html", context)
