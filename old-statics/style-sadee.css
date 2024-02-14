@@ -364,7 +364,7 @@ header .btn-group {
 
 .hero {
   background: var(--background-primary);
-  padding-top: 2rem;
+  padding-top: 4rem;
   padding-bottom: var(--py);
   text-align: center;
   display: flex;
