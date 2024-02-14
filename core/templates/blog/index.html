@@ -11,37 +11,51 @@
     - #HERO SECTION
   -->
 
-  <section class="hero" id="hero">
-    <div class="container hero-container">
-      <article class="hero-image">
-        <div>
-          <img
-            src="{% static 'images/me-1.jpg' %}"
-            alt="my profile pic"
-            loading="lazy"
-            srcset=""
-          />
-        </div>
-      </article>
-      <article class="hero-content">
-        <p class="intro">
-          Hi, i am <span class="span">Mamosebetsi Kekae</span>. I am
+
+  <div class="hero">
+
+    <div class="container">
+
+      <div class="left">
+
+        <h1 class="h1">
+          Hi, I'm <b>Shae&nbsp;Kekae</b>.
+          <br>Cybersecurity Analyst
+        </h1>
+
+        <p class="h3">
+          Specialized in <abbr title="Accessibility">Encryption</abbr>
+          of Web Assets
         </p>
-        <h1>Cybersecurity Analyst</h1>
-        <p class="paragraph">I have 3+ years as a Python Developer.</p>
-        <div class="hero__cta">
-          <a href="#contact" class="btn tertiary">Hire Me</a>
-          <a href="#projects" class="btn secondary">Portfolio</a>
+
+        <div class="btn-group">
+          <a href="#" class="btn btn-primary">Contact Me</a>
+          <a href="#" class="btn btn-secondary">About Me</a>
         </div>
-      </article>
+
+      </div>
+
+  
+      <div>
+        <img
+          src="{% static 'images/me-1.jpg' %}"
+          alt="my profile pic"
+          loading="lazy"
+          srcset=""
+          style="height:300px;width:300px;border-radius:50%;"
+        />
+      </div>
+
     </div>
-  </section>
+
+  </div>
+
 
 
       <!--
         - BLOG SECTION
       -->
-
+<section class="blog" id="blog">
       <div class="blog">
 
         <h2 class="h2">Latest Blog Post</h2>
@@ -512,7 +526,7 @@
       </div>
 
 
-
+    </section>
 
 
       <!--

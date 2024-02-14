@@ -219,7 +219,25 @@ html {
 
 .btn-secondary:hover { border-color: var(--accent); }
 
+/* sections */
+section {
+	padding: 9rem 0;
+}
 
+section > h1,
+section > p {
+	width: 50%;
+	text-align: center;
+	margin-inline: auto;
+}
+
+section > h1 {
+	margin-bottom: 0.5rem;
+}
+
+section:nth-child(odd) {
+	background: var(--color-gray-200);
+}
 
 
 
@@ -385,18 +403,19 @@ header .btn-group {
   #Hero section
 \*-----------------------------------*/
 
- .hero {
+ /* .hero {
 	display: grid;
 	place-items: center;
 	min-height: 100vh;
-} 
+  background-color: blue;
+}  */
 
-.container .hero-container{
+/* .container .hero-container{
 	margin-top: 3rem;
 	position: relative;
-}
+} */
 
-.hero__image {
+/* .hero__image {
 	width: 3rem;
 	overflow: hidden;
 	aspect-ratio: 4/4;
@@ -404,7 +423,7 @@ header .btn-group {
 	margin-inline: auto;
 	border-radius: 50%;
 	
-} */
+}  */
 
 /* .hero__image img {
 	height: 100%;
