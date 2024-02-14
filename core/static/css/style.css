@@ -367,6 +367,8 @@ header .btn-group {
   padding-top: 2rem;
   padding-bottom: var(--py);
   text-align: center;
+  display: flex;
+  justify-content: space-between;
 }
 
 .hero .h1 {
