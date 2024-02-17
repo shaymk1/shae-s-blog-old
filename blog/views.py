@@ -29,16 +29,16 @@ def posts(request):
 
     # articles = Article.articlemanager.all()
     # search for query in headline, sub headline, body
-    articles = Post.articlemanager.filter(
-        Q(headline__icontains=query) |
-        Q(sub_headline__icontains=query) |
-        Q(body__icontains=query)
-    )
+    # articles = Post.articlemanager.filter(
+    #     Q(headline__icontains=query) |
+    #     Q(sub_headline__icontains=query) |
+    #     Q(body__icontains=query)
+    # )
 
     tags = Tag.objects.all()
 
     context = {
-        'articles': articles,
+        
         'tags': tags,
     }
     return render(request, "blog/posts.html", context)

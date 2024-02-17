@@ -1,0 +1,28 @@
+ {% load static %}
+ {% block content %}
+ 
+ 
+ <!-- header -->
+ <header>
+    <nav class = "navbar">
+      <div class = "container">
+        <a href = "{% url 'blog:home' %}" class = "navbar-brand">Academy.Omen</a>
+        <div class = "navbar-nav">
+          <a href = "{% url 'blog:home' %}">home</a>
+          <a href = "{% url 'blog:posts' %}">articles</a>
+          <a href = "">about</a>
+        </div>
+      </div>
+    </nav>
+    <div class = "banner">
+      <div class = "container">
+        <h1 class = "banner-title">
+          <span>Omen.</span> Bloggies
+        </h1>
+        <p>everything you need to know about building a Sass with Django</p>
+      </div>
+    </div>
+  </header>
+  <!-- end of header -->
+
+  {% endblock  %}
